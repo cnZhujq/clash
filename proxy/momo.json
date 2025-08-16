@@ -1,22 +1,22 @@
 {
   "dns": {
     "servers": [
-      { "tag": "local", "address": "223.5.5.5" },
-      { "tag": "public", "address": "https://dns.alidns.com", "detour": "local" },
-      { "tag": "foreign", "address": "https://1.1.1.1/dns-query" },
-      { "tag": "fakeip", "address": "fakeip", "fakeip": { "inet4_range": "198.18.0.0/15", "inet6_range": "fc00::/18" } }
+      {"tag": "local", "type": "udp", "address": "223.5.5.5"},
+      {"tag": "public", "type": "https", "address": "dns.alidns.com", "domain_resolver": "local"},
+      {"tag": "foreign", "type": "https", "address": "1.1.1.1"},
+      {"tag": "fakeip", "type": "fakeip", "inet4_range": "198.18.0.0/15", "inet6_range": "fc00::/18"}
     ],
     "rules": [
-      { "clash_mode": "direct", "server": "local" },
-      { "clash_mode": "global", "server": "foreign" },
-      { "rule_set": ["geosite-cn", "geosite-steamcn", "geosite-apple"], "server": "local" },
-      { "query_type": ["A", "AAAA"], "server": "fakeip", "rewrite_ttl": 1 }
+      {"query_type": "HTTPS", "action": "reject"},
+      {"clash_mode": "direct", "server": "local"},
+      {"clash_mode": "global", "server": "foreign"},
+      {"rule_set": ["geosite-cn", "geosite-steamcn", "geosite-apple"], "server": "local"},
+      {"query_type": ["A", "AAAA"], "server": "fakeip", "rewrite_ttl": 1}
     ],
     "final": "foreign",
     "strategy": "ipv4_only",
     "independent_cache": true
-  }
-},
+  },
   "outbounds": [
     {"tag": "🚀 默认代理", "type": "selector", "outbounds": ["🇭🇰 香港手动", "🇯🇵 日本手动", "🇸🇬 狮城手动", "🇺🇲 美国手动", "🐸 手动选择", "♻️ 自动选择"]},
     {"tag": "🧠 AI", "type": "selector", "outbounds": ["🇯🇵 日本手动", "🇸🇬 狮城手动", "🇺🇲 美国手动"]},
